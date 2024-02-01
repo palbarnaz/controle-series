@@ -78,11 +78,10 @@ class SeriesController extends Controller {
         return view('series.edit', compact('serie'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $idSerie){
 
-        // dd($id);
-
-        Serie::where('id', $id)->update([
+        // dd(json_decode($serie)->id);
+        Serie::where('id', $idSerie)->update([
             'nome' => $request->nome,
 
         ]);

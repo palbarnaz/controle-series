@@ -1,5 +1,6 @@
 <x-layout title="Editar Série {{$serie->nome}}">
-    <form action="/series/salvarEdicao/" method="post">
+    <form action="/series/salvarEdicao/{{$serie->id}}" method="post">
+
         @csrf
         @method('PUT')
         <div class="mb-3">

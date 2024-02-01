@@ -27,6 +27,6 @@ Route::controller(SeriesController::class)->group(function(){
   Route::post('/series/salvar', 'store');
   Route::delete('/series/destruir/{serie}', 'destroy');
   Route::put('/series/editar/{serie}', 'edit');
-  Route::put('/series/salvarEdicao/{serie}', 'update');
+  Route::put('/series/salvarEdicao/{id}', 'update');
 
 });
