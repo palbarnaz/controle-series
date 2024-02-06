@@ -1,8 +1,10 @@
 <x-layout title="Editar Série {{$serie->nome}}">
-    <form action="/series/salvarEdicao/{{$serie->id}}" method="post">
-
-        @csrf
+    <form action="{{route('series.update', $serie->id)}}"  method="post">
         @method('PUT')
+        @csrf
+
+
+
         <div class="mb-3">
 
             <label for="nome" class="form-label">Nome:</label>

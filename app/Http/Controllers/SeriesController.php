@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Serie;
+use App\Models\Temporada;
+use App\Models\Episodio;
 
 
 class SeriesController extends Controller {
@@ -46,8 +48,30 @@ class SeriesController extends Controller {
     //   $serie->save();
 
 
+    $request->validate([
+        'nome' => ['required', 'min:3']
+      ]);
+
+
 
       $serie = Serie::create($request->all());
+
+
+      for($i = 1; $i <= $request->temporadas; $i++) {
+        $temporada = $serie->temporadas()->create([
+          'numero'=>$i
+        ]);
+
+
+        for($j=1; $j <= $request->episodios; $j++)
+        $temporada->episodios()->create([
+                'numero' => $j
+        ]);
+      }
+
+
+
+
     //   Serie::create($request->except(['_token']));
     // Serie::create($request->only(['nome']));
 
@@ -59,34 +83,35 @@ class SeriesController extends Controller {
 
 
 
-    public function destroy(Request $request){
+    public function destroy(Serie $series){
 
 
-        Serie::destroy($request->serie);
 
-        $request->session()->flash('mensagem.sucesso','Série removida com sucesso');
+        $series->delete();
 
-
-        return redirect('/series');
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");
     }
 
-    public function edit(Serie $serie){
 
+    public function edit( Serie $series){
 
-
-
-        return view('series.edit', compact('serie'));
+       return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Request $request, $idSerie){
+    public function update(Serie $series, Request $request){
+
 
         // dd(json_decode($serie)->id);
-        Serie::where('id', $idSerie)->update([
+        Serie::where('id', $series->id)->update([
             'nome' => $request->nome,
 
         ]);
 
+        $request->session()->flash('mensagem.sucesso','Série editada com sucesso');
+
         return redirect('/series');
+
 
 
     }

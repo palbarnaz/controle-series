@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\TemporadasController;
+
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -17,16 +19,16 @@ Route::get('/', function () {
 });
 
 
-// Route::get('/series', [SeriesController::class, 'index']);
-// Route::get('/series/criar', [SeriesController::class, 'create']);
-// Route::post('/series/salvar', [SeriesController::class, 'store']);
+Route::resource('/series', SeriesController::class)
+    ->except(['show']);
 
-Route::controller(SeriesController::class)->group(function(){
-    Route::get('/series',  'index');
-   Route::get('/series/criar', 'create');
-  Route::post('/series/salvar', 'store');
-  Route::delete('/series/destruir/{serie}', 'destroy');
-  Route::put('/series/editar/{serie}', 'edit');
-  Route::put('/series/salvarEdicao/{id}', 'update');
 
-});
+
+Route::get('/series/{serie}/temporadas',
+[TemporadasController::class, 'index'])->name('temporadas.index');
+
+
+
+
+
+
