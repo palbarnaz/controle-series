@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Temporada;
 
 
-class Serie extends Model
+class Episodio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome'];
-    // protected $with =  ['temporadas'];
+    protected $fillable = ['numero'];
+
 
     public function temporadas(){
-        return $this->hasMany(Temporada::class);
+        return $this->belongsTo(Temporada::class);
     }
 }
