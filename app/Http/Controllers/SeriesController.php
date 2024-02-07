@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Serie;
 use App\Models\Temporada;
 use App\Models\Episodio;
+use Illuminate\Support\Facades\DB;
 
 
 class SeriesController extends Controller {
@@ -52,22 +53,26 @@ class SeriesController extends Controller {
         'nome' => ['required', 'min:3']
       ]);
 
+      $serie = null;
+
+      DB::transaction(function () use ($request, &$serie){
+        $serie = Serie::create($request->all());
 
 
-      $serie = Serie::create($request->all());
+        for($i = 1; $i <= $request->temporadas; $i++) {
+          $temporada = $serie->temporadas()->create([
+            'numero'=>$i
+          ]);
 
 
-      for($i = 1; $i <= $request->temporadas; $i++) {
-        $temporada = $serie->temporadas()->create([
-          'numero'=>$i
-        ]);
+          for($j=1; $j <= $request->episodios; $j++)
+          $temporada->episodios()->create([
+                  'numero' => $j
+          ]);
+        }
 
+      });
 
-        for($j=1; $j <= $request->episodios; $j++)
-        $temporada->episodios()->create([
-                'numero' => $j
-        ]);
-      }
 
 
 

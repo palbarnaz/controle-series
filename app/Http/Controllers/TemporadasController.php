@@ -11,7 +11,7 @@ class TemporadasController extends Controller
     public function index(Serie $serie){
         $temporadas = $serie->temporadas()->with('episodios')->get();
 
-        return view('temporadas.index')->with('temporadas', $temporadas);
+        return view('temporadas.index')->with('temporadas', $temporadas)->with('serie', $serie);
     }
 
 }
