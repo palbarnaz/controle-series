@@ -28,7 +28,7 @@ class SeriesController extends Controller {
 
 
 
-         $series = $repository->list();
+         $series = $this->repository->list();
 
     //    $mensagemSucesso = $request->session()->get('mensagem.sucesso');
           $mensagemSucesso = session('mensagem.sucesso');
@@ -56,7 +56,7 @@ class SeriesController extends Controller {
         'nome' => ['required', 'min:3']
       ]);
 
-    $serie = $repository->add($request);
+    $serie = $this->repository->add($request);
 
     //   Serie::create($request->except(['_token']));
     // Serie::create($request->only(['nome']));
@@ -69,7 +69,7 @@ class SeriesController extends Controller {
 
     public function destroy(Serie $series){
 
-        $repository->delete($series);
+        $this->repository->delete($series);
 
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");
@@ -83,7 +83,7 @@ class SeriesController extends Controller {
     public function update(Serie $series, Request $request){
 
 
-        $repository->edit( $request,$series);
+        $this->repository->edit( $request,$series);
 
         $request->session()->flash('mensagem.sucesso','Série editada com sucesso');
 
